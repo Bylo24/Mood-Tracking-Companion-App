@@ -1,31 +1,30 @@
 {
   "expo": {
-    "owner": "appacella",
-    "name": "user-app",
-    "slug": "user-app",
+    "name": "Mood Buddy v2",
+    "slug": "mood-buddy-v2",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#6A5ACD"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "package": "com.appacella.userapp",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/appacella-logo-white.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#6A5ACD"
       }
     },
     "web": {
-      "bundler": "metro",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/favicon.png"
     }
   }
 }

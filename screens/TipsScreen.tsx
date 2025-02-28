@@ -1,92 +1,88 @@
 import React from 'react';
 import { 
-  StyleSheet, 
-  Text, 
   View, 
-  TouchableOpacity, 
+  Text, 
+  StyleSheet, 
+  TouchableOpacity,
   ScrollView,
-  useWindowDimensions
+  FlatList
 } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { theme } from '../theme/theme';
-import { Ionicons } from '@expo/vector-icons';
-import OnboardingProgress from '../components/OnboardingProgress';
 
 interface TipsScreenProps {
   onComplete: () => void;
 }
 
 export default function TipsScreen({ onComplete }: TipsScreenProps) {
+  const tips = [
+    {
+      id: '1',
+      title: 'Track Daily',
+      description: 'Try to log your mood at least once a day for the best insights.',
+      emoji: '📆'
+    },
+    {
+      id: '2',
+      title: 'Be Honest',
+      description: 'Record how you truly feel, not how you think you should feel.',
+      emoji: '🤔'
+    },
+    {
+      id: '3',
+      title: 'Add Context',
+      description: 'Include notes about what might have influenced your mood.',
+      emoji: '📝'
+    },
+    {
+      id: '4',
+      title: 'Review Regularly',
+      description: 'Check your mood patterns weekly to gain valuable insights.',
+      emoji: '🔍'
+    },
+    {
+      id: '5',
+      title: 'Be Patient',
+      description: 'Understanding your mood patterns takes time. Stick with it!',
+      emoji: '⏳'
+    }
+  ];
+  
+  const renderTipItem = ({ item }: { item: typeof tips[0] }) => (
+    <View style={styles.tipCard}>
+      <Text style={styles.tipEmoji}>{item.emoji}</Text>
+      <View style={styles.tipContent}>
+        <Text style={styles.tipTitle}>{item.title}</Text>
+        <Text style={styles.tipDescription}>{item.description}</Text>
+      </View>
+    </View>
+  );
+  
   return (
     <View style={styles.container}>
-      <ScrollView 
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.header}>
-          <OnboardingProgress steps={3} currentStep={2} />
-          <Text style={styles.title}>Tips for Getting Started</Text>
-          <Text style={styles.subtitle}>
-            Here are a few tips to help you get the most out of Mood Buddy
-          </Text>
-        </View>
-        
-        <View style={styles.tipsContainer}>
-          <View style={styles.tipItem}>
-            <View style={styles.tipNumber}>
-              <Text style={styles.tipNumberText}>1</Text>
-            </View>
-            <View style={styles.tipContent}>
-              <Text style={styles.tipTitle}>Track Daily</Text>
-              <Text style={styles.tipDescription}>
-                Try to log your mood every day for the most accurate insights. It only takes a few seconds!
-              </Text>
-            </View>
-          </View>
-          
-          <View style={styles.tipItem}>
-            <View style={styles.tipNumber}>
-              <Text style={styles.tipNumberText}>2</Text>
-            </View>
-            <View style={styles.tipContent}>
-              <Text style={styles.tipTitle}>Be Honest</Text>
-              <Text style={styles.tipDescription}>
-                Record how you truly feel, not how you think you should feel. This app is for your eyes only.
-              </Text>
-            </View>
-          </View>
-          
-          <View style={styles.tipItem}>
-            <View style={styles.tipNumber}>
-              <Text style={styles.tipNumberText}>3</Text>
-            </View>
-            <View style={styles.tipContent}>
-              <Text style={styles.tipTitle}>Try Activities</Text>
-              <Text style={styles.tipDescription}>
-                The recommended activities are personalized based on your mood patterns. Give them a try!
-              </Text>
-            </View>
-          </View>
-          
-          <View style={styles.tipItem}>
-            <View style={styles.tipNumber}>
-              <Text style={styles.tipNumberText}>4</Text>
-            </View>
-            <View style={styles.tipContent}>
-              <Text style={styles.tipTitle}>Check Trends</Text>
-              <Text style={styles.tipDescription}>
-                Review your mood trends weekly to gain insights about what affects your emotional wellbeing.
-              </Text>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
+      <StatusBar style="light" />
+      <View style={styles.header}>
+        <Text style={styles.title}>Tips for Success</Text>
+        <Text style={styles.subtitle}>
+          Follow these tips to get the most out of Mood Buddy
+        </Text>
+      </View>
       
-      <View style={styles.footer}>
-        <TouchableOpacity 
-          style={styles.button}
+      <FlatList
+        data={tips}
+        renderItem={renderTipItem}
+        keyExtractor={item => item.id}
+        contentContainerStyle={styles.tipsContainer}
+      />
+      
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.startButton}
           onPress={onComplete}
         >
-          <Text style={styles.buttonText}>Get Started</Text>
+          <Text style={styles.startButtonText}>
+            Let's Get Started
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -98,89 +94,63 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.background,
   },
-  scrollContent: {
-    flexGrow: 1,
-    padding: 20,
-    paddingBottom: 100, // Extra padding for footer
-  },
   header: {
-    alignItems: 'center',
-    marginBottom: 30,
-    marginTop: 20,
+    padding: theme.spacing.lg,
+    backgroundColor: theme.colors.primary,
   },
   title: {
-    fontSize: 28,
-    fontWeight: theme.fontWeights.bold,
-    color: theme.colors.text,
-    marginBottom: 12,
-    textAlign: 'center',
+    fontSize: theme.fontSizes.xxl,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: theme.spacing.xs,
   },
   subtitle: {
-    fontSize: 16,
-    color: theme.colors.subtext,
-    textAlign: 'center',
-    marginHorizontal: 20,
-    lineHeight: 22,
+    fontSize: theme.fontSizes.md,
+    color: 'rgba(255, 255, 255, 0.8)',
   },
   tipsContainer: {
-    marginTop: 10,
+    padding: theme.spacing.lg,
   },
-  tipItem: {
+  tipCard: {
+    backgroundColor: theme.colors.card,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.lg,
+    marginBottom: theme.spacing.md,
     flexDirection: 'row',
-    marginBottom: 24,
-    alignItems: 'flex-start',
-  },
-  tipNumber: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: theme.colors.primary,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 16,
-    marginTop: 2,
+    ...theme.shadows.sm,
   },
-  tipNumberText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: theme.fontWeights.bold,
+  tipEmoji: {
+    fontSize: 30,
+    marginRight: theme.spacing.md,
   },
   tipContent: {
     flex: 1,
   },
   tipTitle: {
-    fontSize: 18,
-    fontWeight: theme.fontWeights.semibold,
-    color: theme.colors.text,
-    marginBottom: 4,
+    fontSize: theme.fontSizes.lg,
+    fontWeight: 'bold',
+    marginBottom: theme.spacing.xs,
   },
   tipDescription: {
-    fontSize: 14,
+    fontSize: theme.fontSizes.md,
     color: theme.colors.subtext,
-    lineHeight: 20,
   },
-  footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: theme.colors.background,
-    paddingHorizontal: 20,
-    paddingVertical: 16,
+  buttonContainer: {
+    padding: theme.spacing.lg,
+    backgroundColor: theme.colors.card,
     borderTopWidth: 1,
     borderTopColor: theme.colors.border,
   },
-  button: {
+  startButton: {
     backgroundColor: theme.colors.primary,
-    borderRadius: 12,
-    height: 56,
+    borderRadius: theme.borderRadius.md,
+    padding: theme.spacing.md,
     alignItems: 'center',
-    justifyContent: 'center',
-    ...theme.shadows.medium,
   },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: theme.fontWeights.bold,
+  startButtonText: {
+    color: '#fff',
+    fontSize: theme.fontSizes.md,
+    fontWeight: 'bold',
   },
 });
